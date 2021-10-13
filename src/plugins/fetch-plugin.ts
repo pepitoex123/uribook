@@ -34,9 +34,20 @@ export const fetchPlugin = (inputCode: string) => {
                 console.log(request);
                 console.log(data);
 
+                const fileType = args.path.match(/.css$/) ? "css" : "jsx";
+
+                // @ts-ignore
+                const escaped = data.replace(/\n/g,'').replace(/"/g,'\\"').replace(/'/g,"\\'");
+
+                const contents = fileType === "css" ?
+                    `
+                        const style = document.createElement('style');
+                        style.innerText = '${escaped}';
+                        document.head.appendChild(style);
+                    ` : data;
                 const result = {
                     loader: "jsx",
-                    contents: data,
+                    contents,
                     resolveDir: new URL("./",request.responseURL).pathname
                 }
 
