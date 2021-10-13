@@ -19,15 +19,17 @@ export const fetchPlugin = (inputCode: string) => {
                 };
             })
 
-            build.onLoad({filter: /.css$/}, async(args:any): Promise<any> => {
-                // Check to see if we have already fetched this file
-                // and if it is in the cache, return immediately
-
+            build.onLoad({filter: /.*/}, async (args: any): Promise<any> => {
                 const cachedResult = await fileCache.getItem(args.path);
 
                 if(cachedResult){
                     return cachedResult;
                 }
+                return null;
+            })
+
+            build.onLoad({filter: /.css$/}, async(args:any): Promise<any> => {
+
 
                 const { data, request } = await axios.get(args.path)
 
@@ -60,14 +62,7 @@ export const fetchPlugin = (inputCode: string) => {
             build.onLoad({ filter: /.*/ }, async (args: any): Promise<any> => {
 
 
-                // Check to see if we have already fetched this file
-                // and if it is in the cache, return immediately
 
-                const cachedResult = await fileCache.getItem(args.path);
-
-                if(cachedResult){
-                    return cachedResult;
-                }
 
                 const { data, request } = await axios.get(args.path)
 
