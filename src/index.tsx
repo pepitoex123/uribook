@@ -39,7 +39,24 @@ const App = () => {
         console.log(result);
 
         setCode(result.outputFiles[0].text);
+
+
+
     }
+
+    const html = `
+    <html>
+        <head></head>
+        <body>
+            <div id="root"></div>
+            <script >
+                window.addEventListener('message', (event) => {
+                    console.log(event.data);
+                },false)
+            </script>
+        </body>
+    </html>
+`;
 
     return <div>
         <textarea value={input} onChange={e => setInput(e.target.value)}></textarea>
@@ -47,7 +64,9 @@ const App = () => {
             <button onClick={onClick}>Submit</button>
         </div>
         <pre>{code}</pre>
+        <iframe sandbox="" srcDoc={html} />
     </div>
 };
+
 
 ReactDOM.render(<App/>,document.querySelector("#root"));
