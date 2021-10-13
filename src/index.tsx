@@ -6,6 +6,7 @@ import {fetchPlugin} from "./plugins/fetch-plugin";
 
 const App = () => {
     const ref = useRef<any>();
+    const iframe = useRef<any>();
     const [input,setInput] = useState("");
     const [code,setCode] = useState("");
 
@@ -38,7 +39,9 @@ const App = () => {
 
         console.log(result);
 
-        setCode(result.outputFiles[0].text);
+        //setCode(result.outputFiles[0].text);
+
+        iframe.current.contentWindow.postMessage(result.outputFiles[0].text,"*")
 
 
 
@@ -51,7 +54,7 @@ const App = () => {
             <div id="root"></div>
             <script >
                 window.addEventListener('message', (event) => {
-                    console.log(event.data);
+                    eval(event.data);
                 },false)
             </script>
         </body>
@@ -64,7 +67,7 @@ const App = () => {
             <button onClick={onClick}>Submit</button>
         </div>
         <pre>{code}</pre>
-        <iframe sandbox="" srcDoc={html} />
+        <iframe ref={iframe} sandbox="" srcDoc={html} />
     </div>
 };
 
