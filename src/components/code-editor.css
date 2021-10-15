@@ -3,6 +3,13 @@
     height: 100%;
 }
 
+.editor-wrapper{
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+
 .editor-wrapper .button-format{
     position: absolute;
     top: 5px;
