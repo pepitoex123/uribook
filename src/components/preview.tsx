@@ -17,6 +17,7 @@ const html = `
                         console.error(err);
                 };
                 window.addEventListener('error', (event) => {
+                    event.preventDefault();
                     handleError(event.error);
                 })
                 window.addEventListener('message', (event) => {
